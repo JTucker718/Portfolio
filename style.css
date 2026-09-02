@@ -221,6 +221,28 @@ legend {
     background-color: var(--error-bg);
 }
 
+.hidden {
+    display: none;
+}
+
+.btn-toggle {
+    background-color: var(--navy-dark);
+    color: #ffffff;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.btn-toggle:hover, .btn-toggle:focus {
+    background-color: var(--accent-teal);
+    color: #ffffff;
+    outline: 3px solid var(--accent-teal);
+}
+
 @media (min-width: 768px) {
     .grid-container {
         grid-template-columns: 1fr 1fr;

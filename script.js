@@ -1,4 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
+    
+    // --- 1. DOM INTERACTION (Show / Hide Details) ---
+    const toggleButtons = document.querySelectorAll(".btn-toggle");
+
+    toggleButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const targetId = button.getAttribute("data-target");
+            const detailsElement = document.getElementById(targetId);
+
+            if (detailsElement) {
+                const isHidden = detailsElement.classList.toggle("hidden");
+
+                if (isHidden) {
+                    button.textContent = "Read More";
+                    button.setAttribute("aria-expanded", "false");
+                } else {
+                    button.textContent = "Show Less";
+                    button.setAttribute("aria-expanded", "true");
+                }
+            }
+        });
+    });
+
+
+    // --- 2. FORM VALIDATION (Contact Form) ---
     const form = document.getElementById("contact-form");
     if (!form) return;
 
@@ -8,6 +33,16 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const errorSummary = document.getElementById("error-summary");
     const errorList = document.getElementById("error-list");
+
+    if (nameInput) {
+        nameInput.addEventListener("input", () => clearFieldError(nameInput, "name-error"));
+    }
+    if (emailInput) {
+        emailInput.addEventListener("input", () => clearFieldError(emailInput, "email-error"));
+    }
+    if (messageInput) {
+        messageInput.addEventListener("input", () => clearFieldError(messageInput, "message-error"));
+    }
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -56,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             errorSummary.style.display = "block";
             errorSummary.focus();
         } else {
+            alert("Thank you! Your message has been sent successfully.");
             form.reset();
         }
     });
@@ -63,12 +99,17 @@ document.addEventListener("DOMContentLoaded", () => {
     function showFieldError(input, errorId, message) {
         input.classList.add("input-error");
         const errorEl = document.getElementById(errorId);
-        errorEl.textContent = message;
+        if (errorEl) errorEl.textContent = message;
     }
 
     function clearFieldError(input, errorId) {
+        if (!input) return;
         input.classList.remove("input-error");
         const errorEl = document.getElementById(errorId);
-        errorEl.textContent = "";
+        if (errorEl) errorEl.textContent = "";
+        
+        if (errorList && errorList.children.length === 0) {
+            errorSummary.style.display = "none";
+        }
     }
 });
